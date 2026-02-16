@@ -1,0 +1,5 @@
+{
+  "name": "ReActum (思行)",
+  "description": "An AI-powered reading companion that turns book notes into actionable life changes using Gemini.",
+  "requestFramePermissions": []
+}
