@@ -18,3 +18,10 @@ View your app in AI Studio: https://ai.studio/apps/drive/1G4X39pO7781108oUnr46l5
 2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
 3. Run the app:
    `npm run dev`
+
+## Deployment
+
+Deployed on Netlify: https://reactum.netlify.app
+
+Environment variables configured in Netlify:
+- `GEMINI_API_KEY`: Google Gemini API Key
