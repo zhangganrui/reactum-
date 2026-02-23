@@ -27,16 +27,26 @@ const GrowthStats: React.FC<GrowthStatsProps> = ({ notes, allActions }) => {
 
   const COLORS = ['#D4A373', '#A3B18A', '#588157', '#3A5A40', '#DAD7CD'];
 
-  // Prepare dummy data for weekly activity
-  const activityData = [
-    { day: 'Mon', actions: 2 },
-    { day: 'Tue', actions: 4 },
-    { day: 'Wed', actions: 1 },
-    { day: 'Thu', actions: 5 },
-    { day: 'Fri', actions: 3 },
-    { day: 'Sat', actions: 6 },
-    { day: 'Sun', actions: 2 },
-  ];
+  // Calculate weekly activity from actual action data
+  const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  const dayOrder = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
+  // Count actions by day of week
+  const actionsByDay: Record<string, number> = {
+    Mon: 0, Tue: 0, Wed: 0, Thu: 0, Fri: 0, Sat: 0, Sun: 0
+  };
+
+  allActions.forEach(action => {
+    const date = new Date(action.createdAt);
+    const dayOfWeek = weekDays[date.getDay()]; // 0 = Sun, 1 = Mon, etc.
+    actionsByDay[dayOfWeek]++;
+  });
+
+  // Build activity data in correct order
+  const activityData = dayOrder.map(day => ({
+    day,
+    actions: actionsByDay[day]
+  }));
 
   return (
     <div className="space-y-6 animate-in fade-in duration-500">
