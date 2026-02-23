@@ -20,6 +20,8 @@ import { generateActionsFromNote } from './services/geminiService';
 import KnowledgeGraph from './components/KnowledgeGraph';
 import GrowthStats from './components/GrowthStats';
 
+const MAX_FREE_NOTES = 2; // Free tier limit
+
 const App: React.FC = () => {
   // State
   const [activeView, setActiveView] = useState<ViewState>(ViewState.DASHBOARD);
@@ -27,6 +29,7 @@ const App: React.FC = () => {
   const [showAddNote, setShowAddNote] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [loadingActionFor, setLoadingActionFor] = useState<string | null>(null);
+  const [showLimitModal, setShowLimitModal] = useState(false);
   
   // New Note Form State
   const [newNoteContent, setNewNoteContent] = useState('');
@@ -40,6 +43,13 @@ const App: React.FC = () => {
   // Handlers
   const handleAddNote = (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Check free tier limit
+    if (notes.length >= MAX_FREE_NOTES) {
+      setShowAddNote(false);
+      setShowLimitModal(true);
+      return;
+    }
     const newNote: Note = {
       id: Date.now().toString(),
       content: newNoteContent,
@@ -231,6 +241,39 @@ const App: React.FC = () => {
             </div>
           )}
 
+          {/* Limit Modal */}
+          {showLimitModal && (
+            <div className="fixed inset-0 bg-black/20 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-in fade-in">
+              <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 border border-stone-100 text-center">
+                <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Sparkles size={32} className="text-amber-600" />
+                </div>
+                <h2 className="text-2xl font-serif font-bold text-ink mb-2">Free Limit Reached</h2>
+                <p className="text-stone-600 mb-6">
+                  You've used all <span className="font-bold text-ink">{MAX_FREE_NOTES} free notes</span>.<br />
+                  Upgrade to unlock unlimited notes and features.
+                </p>
+                <div className="space-y-3">
+                  <button
+                    onClick={() => setShowLimitModal(false)}
+                    className="w-full bg-stone-900 text-white py-3 rounded-xl font-medium hover:bg-stone-800 transition"
+                  >
+                    Got it
+                  </button>
+                  <button
+                    onClick={() => setShowLimitModal(false)}
+                    className="w-full bg-stone-100 text-stone-600 py-3 rounded-xl font-medium hover:bg-stone-200 transition"
+                  >
+                    Maybe Later
+                  </button>
+                </div>
+                <p className="text-xs text-stone-400 mt-4">
+                  Delete existing notes to free up space
+                </p>
+              </div>
+            </div>
+          )}
+
           {/* Header Section */}
           <header className="flex justify-between items-end mb-10">
             <div>
@@ -242,12 +285,19 @@ const App: React.FC = () => {
                  {activeView === ViewState.GROWTH && "Growth Report"}
                </h2>
             </div>
-            <button 
-              onClick={() => setShowAddNote(true)}
+            <button
+              onClick={() => {
+                if (notes.length >= MAX_FREE_NOTES) {
+                  setShowLimitModal(true);
+                } else {
+                  setShowAddNote(true);
+                }
+              }}
               className="bg-stone-900 hover:bg-stone-800 text-white px-5 py-3 rounded-full shadow-lg shadow-stone-300 transition-all transform hover:scale-105 flex items-center gap-2"
             >
               <Plus size={20} />
               <span className="hidden md:inline font-medium">Add Note</span>
+              <span className="bg-white/20 px-2 py-0.5 rounded-full text-xs">{notes.length}/{MAX_FREE_NOTES}</span>
             </button>
           </header>
 
