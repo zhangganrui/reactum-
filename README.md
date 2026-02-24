@@ -1,27 +1,95 @@
 <div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+  <h1>ReActum (思行)</h1>
+  <p>Read → Re-Act → Actum</p>
+  <p>Transform reading notes into actionable life changes</p>
 </div>
 
-# Run and deploy your AI Studio app
+## What is ReActum?
 
-This contains everything you need to run your app locally.
+ReActum is an AI-powered reading companion that helps you:
 
-View your app in AI Studio: https://ai.studio/apps/drive/1G4X39pO7781108oUnr46l5plLjwbBInf
+- Capture book notes and insights
+- Generate actionable micro-actions from your reading (powered by Google Gemini AI)
+- Visualize your knowledge with an interactive Mind Map
+- Track your growth with weekly activity stats
+
+## Live Demo
+
+Visit: https://reactum.ai
+
+---
+
+## Features
+
+| Feature | Description |
+|---------|-------------|
+| Note Taking | Capture book excerpts with tags and categories |
+| AI Actions | Generate 3 concrete micro-actions per note (≤15 min each) |
+| Mind Map | Visualize connections between books, notes, and themes |
+| Growth Stats | Track your weekly action completion patterns |
+
+---
+
+## Tech Stack
+
+- Frontend: React 19 + TypeScript
+- Build: Vite
+- AI: Google Gemini 2.5 Flash
+- Deployment: Netlify
+- Analytics: Google Analytics
+
+---
 
 ## Run Locally
 
-**Prerequisites:**  Node.js
+**Prerequisites:** Node.js
 
+```bash
+# Install dependencies
+npm install
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+# Set up environment variables
+# Create .env.local with your GEMINI_API_KEY
+echo "GEMINI_API_KEY=your_api_key_here" > .env.local
+
+# Run development server
+npm run dev
+```
+
+---
+
+## Project Structure
+
+```
+reactum-/
+├── App.tsx              # Main application
+├── components/          # UI components
+│   ├── GrowthStats.tsx     # Weekly activity chart
+│   └── KnowledgeGraph.tsx  # Mind map visualization
+├── services/
+│   └── geminiService.ts    # AI integration
+├── types.ts             # TypeScript definitions
+└── constants.ts         # App constants & sample data
+```
+
+---
 
 ## Deployment
 
-Deployed on Netlify: https://reactum.netlify.app
+Deployed on Netlify: https://reactum.ai
 
-Environment variables configured in Netlify:
+Environment variables:
 - `GEMINI_API_KEY`: Google Gemini API Key
+- `VITE_` prefixed variables are automatically exposed to the client
+
+---
+
+## License
+
+MIT
+
+---
+
+## Contact
+
+For questions or feedback, visit https://reactum.ai
