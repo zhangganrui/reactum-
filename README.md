@@ -92,4 +92,4 @@ MIT
 
 ## Contact
 
-For questions or feedback, visit https://reactum.ai
+For questions or feedback, visit https://reactum.ai or email z87051@gmail.com
